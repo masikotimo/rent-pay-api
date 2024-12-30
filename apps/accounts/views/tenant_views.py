@@ -16,7 +16,8 @@ class TenantViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.user_type == 'property_manager':
-            return Tenant.objects.filter(property_manager=self.request.user.propertymanager)
+            # return Tenant.objects.filter(property_manager=self.request.user.propertymanager)
+            return Tenant.objects.all()
         elif self.request.user.user_type == 'tenant':
             return Tenant.objects.filter(user=self.request.user)
         return super().get_queryset()
