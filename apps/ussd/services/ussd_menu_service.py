@@ -1,3 +1,5 @@
+from apps.accounts.models import  Tenant
+
 class USSDMenuService:
     def __init__(self, session, text):
         self.session = session
@@ -6,7 +8,7 @@ class USSDMenuService:
 
     def process(self):
         if not self.text:
-            return self.main_menu()
+            return "CON Welcome to Property Management\n1. Check Balance\n2. Make Payment\n3. Exit"
         
         current_menu = self.session.current_menu
         if current_menu == 'MAIN':
@@ -16,15 +18,10 @@ class USSDMenuService:
         elif current_menu == 'PAYMENT':
             return self.handle_payment()
         
-        return self.main_menu()
-
-    def main_menu(self):
-        self.session.current_menu = 'MAIN'
-        self.session.save()
-        return "CON Welcome to Property Management\n1. Check Balance\n2. Make Payment\n3. Exit"
+        return "END Invalid choice"
 
     def handle_main_menu(self):
-        choice = self.menu_steps[-1]
+        choice = self.menu_steps[-1].strip()
         if choice == '1':
             self.session.current_menu = 'CHECK_BALANCE'
             self.session.save()
